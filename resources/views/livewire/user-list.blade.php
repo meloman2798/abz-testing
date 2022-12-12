@@ -27,7 +27,6 @@
                             <button type="button"
                                     wire:click="$emit('edit', {{ $user->id }})"
                                     data-toggle="tooltip"
-                                    title="Edit Product"
                                     class="btn btn-primary btn-sm">
                                 <i class="fa fa-pencil"></i>
                             </button>
