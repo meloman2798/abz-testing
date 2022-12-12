@@ -13,31 +13,28 @@ class UserList extends Component
     ];
 
     protected string $paginationTheme = 'bootstrap';
-    public int $productsShow = 6;
+    public int $userShow = 6;
     public bool $loadMoreBtn;
 
     public function loadMore()
     {
-        $this->productsShow += 6;
+        $this->userShow += 6;
     }
 
     public function render()
     {
-        $users = $this->getUsers($this->productsShow);
-        $this->calcLoadMore($this->productsShow, $users->total());
+        $users = $this->getUsers($this->userShow);
+        $this->calcLoadMore($this->userShow, $users->total());
         return view('livewire.user-list', [
             'users' => $users,
-            'usersTotal' => $users->total(),
-            'productsShow' => $this->productsShow,
-            'loadMore' => $this->loadMoreBtn,
         ]);
     }
 
-    public function getUsers($productsShow): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function getUsers($userShow): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return User::query()
             ->orderBy('id', 'desc')
-            ->paginate($productsShow);
+            ->paginate($userShow);
     }
 
     public function deleteUser($userId)
