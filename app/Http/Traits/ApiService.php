@@ -16,7 +16,7 @@ trait ApiService
 
             $response = Http::timeout(50)
                 ->accept('application/json')
-                ->post('http://abz-agency.loc/api/v1/user/'.$method, [
+                ->post('http://www.abz-testing.fun/api/v1/user/'.$method, [
                     'api_token' => '2a127d0Vo0aF5vPBCnCC690uieYMIpth9WAXGgFqjqGCgF928AstUUq',
                     'name' => $this->userName ?? '',
                     'email' => $this->email ?? '',
