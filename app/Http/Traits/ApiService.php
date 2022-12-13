@@ -10,9 +10,8 @@ use Throwable;
  */
 trait ApiService
 {
-    public function sendResponse($method, $userId, $imgFile = null)
+    public function sendResponse($method, $userId = null, $imgFile = null)
     {
-
         try {
 
             $response = Http::timeout(50)
