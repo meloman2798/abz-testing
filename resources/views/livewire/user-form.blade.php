@@ -32,7 +32,7 @@
                         @if($photo)
                             <div class="mb-3 d-flex align-items-start">
                                 <img
-                                    src="{{ $isUploaded ? asset('storage/photos/'.$photo) : $photo->temporaryUrl() }}"
+                                    src="{{ $isUploaded ? asset('public/storage/photos/'.$photo) : $photo->temporaryUrl() }}"
                                     class="me-3" alt="photo"
                                     style="max-height: 242px;max-width: 300px;object-fit: contain;object-position: left;">
                                 <a class="btn btn-danger" wire:click="deletePhoto">delete</a>

@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'apiToken', 'prefix' => 'v1'], function () {
     Route::post('/user/create', [UserAPIController::class, 'create']);
     Route::post('/user/update', [UserAPIController::class, 'update']);
+    Route::post('/user/delete', [UserAPIController::class, 'delete']);
 });

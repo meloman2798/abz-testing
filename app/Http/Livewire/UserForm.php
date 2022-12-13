@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Traits\ApiService;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class UserForm extends Component
 {
     use WithFileUploads;
+    use ApiService;
 
     protected $listeners = ['edit'];
 
@@ -17,6 +18,8 @@ class UserForm extends Component
     public $email;
     public $password;
     public $photo;
+
+    public $method = 'create';
 
     public $userId;
 
@@ -50,13 +53,11 @@ class UserForm extends Component
     public function save()
     {
         $this->validate();
-
         if (!$this->userId) {
             $this->validate([
                 'email' => 'required|email|unique:users',
             ]);
         }
-
         if (is_string($this->photo)) {
             $this->validate([
                 'photo' => 'required',
@@ -70,29 +71,14 @@ class UserForm extends Component
             $imgFile = $this->photo->store('/', 'photos');
         }
 
-        $this->makeSizeImage($imgFile);
+       $result = $this->sendResponseApi($imgFile);
 
-        $userId = 0;
-        if ($this->userId) {
-            $userId = $this->userId;
+        if ($result['result']){
+            session()->flash('status', 'User successfully saved!');
+            $this->emit('userTableRefresh');
+            $this->resetForm();
         }
 
-       User::updateOrCreate(
-            [
-                'id' => $userId
-            ],
-            [
-                'name' => $this->userName,
-                'email' => $this->email,
-                'password' => Hash::make($this->password),
-                'photo' => $imgFile,
-            ]);
-
-
-        $this->isUploaded = true;
-        session()->flash('status', 'User successfully saved!');
-        $this->emit('userTableRefresh');
-        $this->resetForm();
     }
 
     public function edit($userId)
@@ -118,16 +104,14 @@ class UserForm extends Component
         $this->isUploaded = false;
     }
 
-    public function makeSizeImage($imgFile)
+    public function sendResponseApi($imgFile): array
     {
-        $filepath = 'storage/photos/'.$imgFile;
-        \Tinify\setKey("3ZCDnmrBwGxCXzdmkKgGyWY5BsYSYZdd");
-        $source = \Tinify\fromFile($filepath);
-        $resized = $source->resize(array(
-            "method" => "fit",
-            "width" => 70,
-            "height" => 70
-        ));
-        $resized->toFile('storage/photos/'.$imgFile);
+        $userId = 0;
+        if ($this->userId) {
+            $userId = $this->userId;
+            $this->method = 'update';
+        }
+
+       return $this->sendResponse($this->method ,$userId,$imgFile);
     }
 }

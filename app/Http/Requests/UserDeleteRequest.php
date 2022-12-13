@@ -4,16 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserUpdateRequest extends FormRequest
+class UserDeleteRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
             'user_id' => 'required|integer',
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|string',
-            'photo' => 'required|string',
         ];
     }
 

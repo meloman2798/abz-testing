@@ -21,7 +21,7 @@
                         <td>{{$user->email}}</td>
                         <td>{{$user->password}}</td>
                         <td>
-                            <img style="width: 70px;max-height: 70px;object-fit: contain;object-position: center;" src="{{asset('storage/photos/'.$user->photo)}}">
+                            <img style="width: 70px;max-height: 70px;object-fit: contain;object-position: center;" src="{{asset('public/storage/photos/'.$user->photo)}}">
                         </td>
                         <td class="action" style="vertical-align: middle;">
                             <button type="button"
@@ -54,7 +54,11 @@
                             class="btn btn-secondary">Load more</button>
                 </div>
             @endif
+            <div>
+                {{ $users->links() }}
+            </div>
         </div>
+
     </div>
 </div>
 

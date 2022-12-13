@@ -2,11 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Traits\ApiService;
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class UserList extends Component
 {
+    use ApiService;
+    use WithPagination;
+
     protected $listeners = [
         'userTableRefresh' => '$refresh',
         'deleteUser'
@@ -39,8 +44,7 @@ class UserList extends Component
 
     public function deleteUser($userId)
     {
-        $result = User::query()->find($userId);
-        $result->delete();
+        $this->sendResponse('delete' ,$userId);
         $this->emit('userTableRefresh');
     }
 
